@@ -1,7 +1,7 @@
 //.ready() is a jQuery function that waits for the HTML document to be fully loaded before running the JavaScript code inside the function
 $(document).ready(function () {
     //grabs the current day for the main header
-    var currentDay = dayjs().format("dddd MMMM YYYY");
+    var currentDay = dayjs().format("DD MMMM YYYY");
     $("#currentDay").text(currentDay);
     
     //sets the work hours and grabs the planner element
@@ -14,7 +14,7 @@ $(document).ready(function () {
         var timeEl = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(workHours[i]);
         var descriptionEl = $("<textarea>").addClass("col-8 col-md-10 description");
 
-        //adds different colored class depending on the day.js().hour() function
+        //adds different colored class depending on the dayjs().hour() function
         //i + 8 because the work hours don't start until 8AM and go till the length of the workHours array
         if(dayjs().hour() > i + 9) {
             descriptionEl.addClass("past");
