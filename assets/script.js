@@ -1,23 +1,56 @@
-// Wrap all code that interacts with the DOM in a call to jQuery to ensure that
-// the code isn't run until the browser has finished rendering all the elements
-// in the html.
-$(function () {
-    // TODO: Add a listener for click events on the save button. This code should
-    // use the id in the containing time-block as a key to save the user input in
-    // local storage. HINT: What does `this` reference in the click listener
-    // function? How can DOM traversal be used to get the "hour-x" id of the
-    // time-block containing the button that was clicked? How might the id be
-    // useful when saving the description in local storage?
-    //
-    // TODO: Add code to apply the past, present, or future class to each time
-    // block by comparing the id to the current hour. HINTS: How can the id
-    // attribute of each time-block be used to conditionally add or remove the
-    // past, present, and future classes? How can Day.js be used to get the
-    // current hour in 24-hour time?
-    //
-    // TODO: Add code to get any user input that was saved in localStorage and set
-    // the values of the corresponding textarea elements. HINT: How can the id
-    // attribute of each time-block be used to do this?
-    //
-    // TODO: Add code to display the current date in the header of the page.
-  });
+//.ready() is a jQuery function that waits for the HTML document to be fully loaded before running the JavaScript code inside the function
+$(document).ready(function () {
+    //grabs the current day for the main header
+    var currentDay = dayjs().format("dddd MMMM YYYY");
+    $("#currentDay").text(currentDay);
+    
+    //sets the work hours and grabs the planner element
+    var workHours = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM"];
+    var planner = $(".container-fluid");
+
+    //for loop that creates the time block, time, and description for each work hour
+    for(var i = 0; i < workHours.length; i++) {
+        var timeBlockEl = $("<div>").addClass("row time-block");
+        var timeEl = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(workHours[i]);
+        var descriptionEl = $("<textarea>").addClass("col-8 col-md-10 description");
+
+        //adds different colored class depending on the day.js().hour() function
+        //i + 8 because the work hours don't start until 8AM and go till the length of the workHours array
+        if(dayjs().hour() > i + 9) {
+            descriptionEl.addClass("past");
+        } else if (dayjs().hour() === i + 9) {
+            descriptionEl.addClass("present");
+        } else {
+            descriptionEl.addClass("future");
+        }
+
+        //creates a save button with a save button icon class
+        var saveBtn = $("<button>").addClass("saveBtn btn col-2 col-md-1").html("<i class='fas fa-save'></i>");
+        //retrieves the local storage of the item that's assigned to the particular time
+        var savedEvent = localStorage.getItem(workHours[i]);
+
+        //if there's information tied to the local storage of a particular time the description value will be that
+        if(savedEvent) {
+            descriptionEl.val(savedEvent);
+        }
+
+        //for each time in the workHours array there will be an appended time, description, and save button in the HTML
+        timeBlockEl.append(timeEl, descriptionEl, saveBtn);
+        planner.append(timeBlockEl);   
+    }
+
+    //action to be done when you click the save button
+    $(".saveBtn").on("click", function() {
+        //grabs where the click took place and grabs that time block/parent element
+        var timeBlock = $(this).parent() ;
+        //this finds the resulting child element of the time block whose class is represented by ".description"
+        var descriptionEl = timeBlock.find(".description");
+        //assigns event to be the value of the descriptionEl
+        var event = descriptionEl.val();
+        //this finds the resulting child element of the time block whose class is represented by ".hour" and grabs its text
+        var time = timeBlock.find(".hour").text();
+        //sets the value of the local storage item to a key of time and then saves the event
+        localStorage.setItem(time, event);
+    });
+});
+
