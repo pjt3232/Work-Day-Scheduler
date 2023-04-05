@@ -5,20 +5,20 @@ $(document).ready(function () {
     $("#currentDay").text(currentDay);
     
     //sets the work hours and grabs the planner element
-    var workHours = ["9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM"];
+    var workHours = ["8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM"];
     var planner = $(".container-fluid");
 
     //for loop that creates the time block, time, and description for each work hour
     for(var i = 0; i < workHours.length; i++) {
         var timeBlockEl = $("<div>").addClass("row time-block");
         var timeEl = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(workHours[i]);
-        var descriptionEl = $("<textarea>").addClass("col-8 col-md-10 description");
+        var descriptionEl = $("<textarea>").addClass("col-8 col-md-10 description").attr("rows", "3");
 
         //adds different colored class depending on the dayjs().hour() function
         //i + 8 because the work hours don't start until 8AM and go till the length of the workHours array
-        if(dayjs().hour() > i + 9) {
+        if(dayjs().hour() > i + 8) {
             descriptionEl.addClass("past");
-        } else if (dayjs().hour() === i + 9) {
+        } else if (dayjs().hour() === i + 8) {
             descriptionEl.addClass("present");
         } else {
             descriptionEl.addClass("future");
@@ -26,6 +26,8 @@ $(document).ready(function () {
 
         //creates a save button with a save button icon class
         var saveBtn = $("<button>").addClass("saveBtn btn col-2 col-md-1").html("<i class='fas fa-save'></i>");
+        saveBtn.attr("aria-label", "save");
+        saveBtn.find("i").attr("aria-hidden", "true");
         //retrieves the local storage of the item that's assigned to the particular time
         var savedEvent = localStorage.getItem(workHours[i]);
 

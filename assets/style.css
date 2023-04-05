@@ -44,6 +44,10 @@ body {
     background-color: #77dd77;
     color: white;
   }
+
+  .hide {
+    display: none;
+  }
   
   .saveBtn {
     border-left: 1px solid black;
