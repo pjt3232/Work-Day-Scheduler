@@ -1,3 +1,4 @@
+/*styling for body and then textarea element*/
 body {
     font-family: 'Open Sans', sans-serif;
     font-size: 16px;
@@ -12,6 +13,7 @@ body {
     padding: 10px;
   }
   
+  /*styling for both the description of the text in the time block and the styling of the time block itself*/
   .description {
     white-space: pre-wrap;
   }
@@ -20,10 +22,12 @@ body {
     border-radius: 15px;
   }
   
+  /*creates the border on top of the time block also has bootstrap styling*/
   .row {
     border-top: 1px solid white;
   }
   
+  /*styles for the time on the left hand side, the time block will change colors depending on the past present and future classes*/
   .hour {
     background-color: #ffffff;
     color: #000000;
@@ -45,10 +49,12 @@ body {
     color: white;
   }
 
+  /*to hide the null time block so the JavaScript can grab the element from HTML yet still be functional with the JS*/
   .hide {
     display: none;
   }
   
+  /*styling fot the save button on the right hand side of the time block and what happens when you hover over it*/
   .saveBtn {
     border-left: 1px solid black;
     border-top-right-radius: 15px;
