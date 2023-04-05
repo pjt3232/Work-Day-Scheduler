@@ -8,7 +8,7 @@ $(document).ready(function () {
     var workHours = ["8AM", "9AM", "10AM", "11AM", "12PM", "1PM", "2PM", "3PM", "4PM", "5PM", "6PM", "7PM", "8PM"];
     var planner = $(".container-fluid");
 
-    //for loop that creates the time block, time, and description for each work hour
+    //for loop that creates the time block, time, and description for each work hour and adds classes
     for(var i = 0; i < workHours.length; i++) {
         var timeBlockEl = $("<div>").addClass("row time-block");
         var timeEl = $("<div>").addClass("col-2 col-md-1 hour text-center py-3").text(workHours[i]);
@@ -31,7 +31,7 @@ $(document).ready(function () {
         //retrieves the local storage of the item that's assigned to the particular time
         var savedEvent = localStorage.getItem(workHours[i]);
 
-        //if there's information tied to the local storage of a particular time the description value will be that
+        //if there's information tied to the local storage of a particular time the description value will be that value
         if(savedEvent) {
             descriptionEl.val(savedEvent);
         }
@@ -43,7 +43,7 @@ $(document).ready(function () {
 
     //action to be done when you click the save button
     $(".saveBtn").on("click", function() {
-        //grabs where the click took place and grabs that time block/parent element
+        //grabs where the click took place and grabs that time-block/parent element
         var timeBlock = $(this).parent() ;
         //this finds the resulting child element of the time block whose class is represented by ".description"
         var descriptionEl = timeBlock.find(".description");
